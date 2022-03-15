@@ -89,12 +89,16 @@ app.get('/getlist',async (req,res)=>{
 
 //api
 ///***third api: get one of your todo lists
+//adding validation input
 app.get('/getlist/:id',async (req,res)=>{
     let sql = 'select * from post where id =?'
     var id = req.params.id
     const objet = await db.query(sql, id, (err, results)=>{
-        if(err)
-            res.status(500).send({success: false, message: err.message})
+        if(err){
+            return res.status(500).send({success: false, message: err.message})
+        }else if(results.length === 0){
+            return res.status(500).send({success: false, message: 'post not found'})
+        }
         res.send({success: true, message: results})
     })
 })

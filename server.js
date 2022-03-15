@@ -118,3 +118,24 @@ app.delete('/delete/:id',async (req, res)=>{
         res.send({success: true, message: 'Deleted post'})
     })
 })
+
+//api
+///****fifth api: update one of your todo lists
+app.put('/update/:id',async (req, res)=>{
+    var id = req.params.id
+    var post_object =req.body
+    var field =""
+    for(var i in post_object){
+        field+= i + "=" + "'"+post_object[i]+"'" +","
+    }
+    const sql = "update post set " + field.slice(0, -1) +" where id =?"
+    const update = await db.query(sql, id, (err, results)=>{
+        if(err){
+            return res.status(500).send({success: false, message: err.message})
+        }
+        if(results.affectedRows == 0){
+            return res.status(500).send({success: false, message: 'post not found'})
+        }
+        res.send({success: true, message: 'Updated post'})
+    })
+})

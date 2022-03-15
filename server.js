@@ -77,7 +77,7 @@ app.post('/createTable',(req,res)=>{
             })
   })
 //api
-///*second api: get your todo lists
+///**second api: get your todo lists
 app.get('/getlist',async (req,res)=>{
     let sql = 'select * from post'
     const objet = await db.query(sql,(err, results)=>{
@@ -85,4 +85,16 @@ app.get('/getlist',async (req,res)=>{
             res.status(500).send({success: false, message: err.message})
         res.send({success: true, message: results})
         })
+})
+
+//api
+///***third api: get one of your todo lists
+app.get('/getlist/:id',async (req,res)=>{
+    let sql = 'select * from post where id =?'
+    var id = req.params.id
+    const objet = await db.query(sql, id, (err, results)=>{
+        if(err)
+            res.status(500).send({success: false, message: err.message})
+        res.send({success: true, message: results})
+    })
 })

@@ -89,7 +89,7 @@ app.get('/getlist',async (req,res)=>{
 
 //api
 ///***third api: get one of your todo lists
-//adding validation input
+//adding input validation 
 app.get('/getlist/:id',async (req,res)=>{
     let sql = 'select * from post where id =?'
     var id = req.params.id
@@ -100,5 +100,21 @@ app.get('/getlist/:id',async (req,res)=>{
             return res.status(500).send({success: false, message: 'post not found'})
         }
         res.send({success: true, message: results})
+    })
+})
+
+//api
+///****fourth api: delete one of your todo lists
+//adding input validation
+app.delete('/delete/:id',async (req, res)=>{
+    var id = req.params.id
+    const sql = "delete from post where id =?"
+    const delet = await db.query(sql, [id], (err, results)=>{
+        if(err){
+            return res.status(500).send({success: false, message: err.message})
+        }else if (results.affectedRows == 0){
+            return res.status(500).send({success: false, message: 'post not found'})
+        }
+        res.send({success: true, message: 'Deleted post'})
     })
 })

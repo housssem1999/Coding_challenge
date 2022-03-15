@@ -46,3 +46,17 @@ app.post('/createTable',(req,res)=>{
         res.send({success: true})
     })
 })
+
+//api
+///*first api: add your todo list 
+app.post('/create', async (req, res)=>{
+        var {title, description, date, category} = req.body
+        const sql = `insert into post 
+            (title, description, date, category) values 
+            ('${title}','${description}','${date}','${category}')`
+            const create = await db.query(sql, err=>{
+                if(err)
+                    res.status(400).json({success: false, message: err.message})
+                res.status(201).json({success: true, objet: 'Created post'})   
+            })
+  })

@@ -76,3 +76,13 @@ app.post('/createTable',(req,res)=>{
                 res.status(201).json({success: true, message: "Created post"})
             })
   })
+//api
+///*second api: get your todo lists
+app.get('/getlist',async (req,res)=>{
+    let sql = 'select * from post'
+    const objet = await db.query(sql,(err, results)=>{
+        if(err)
+            res.status(500).send({success: false, message: err.message})
+        res.send({success: true, message: results})
+        })
+})

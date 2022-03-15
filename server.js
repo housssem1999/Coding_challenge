@@ -30,3 +30,19 @@ app.use(cors(corsOptions))
 app.listen(3000, ()=>{
     console.log('listenning to port 3000')
 })
+
+//ceate table 'post' in the database 
+app.post('/createTable',(req,res)=>{
+    let sql = `CREATE TABLE post (
+        id INT NOT NULL AUTO_INCREMENT,
+        title VARCHAR(45) NULL,
+        description VARCHAR(45) NULL,
+        date DATE NULL,
+        category VARCHAR(45) NULL,
+        PRIMARY KEY (id));`
+    db.query(sql,(err)=>{
+        if(err)
+            throw err
+        res.send({success: true})
+    })
+})
